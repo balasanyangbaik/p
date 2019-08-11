@@ -1,0 +1,67 @@
+
+<style type="text/css">
+body{margin:auto;padding:0;}
+#chatango{position:fixed;text-align:center;z-index:10000;top:50%;left:50%;-webkit-transform:translate(-50%,-50%);-ms-transform:translate(-50%,-50%);transform:translate(-50%,-50%);height:400px;width:270px}
+#chatango2{padding:10px;cursor:move;z-index:10;background-color:#2196F3;color:#fff}
+#close_chatango{position:absolute;bottom:100%;right:0;width:30px;height:30px;line-height:30px;text-align:center;background:#2196F3;color:#fff;transition:0.2s;cursor:pointer}
+#close_chatango:hover{background:#E14B4B}
+</style>
+
+
+<div id="chatango">
+<div id="close_chatango" onclick='Close()'><i class="fa fa-times"></i></div>
+<h3 id="chatango2">Chatango You Can Drag and Drop</h3>
+<script id="codeid" data-cfasync="false" async src="//st.chatango.com/js/gz/emb.js" style="width: 250px;height: 350px;">{"handle":"name","arch":"js","styles":{"a":"CC0000","b":100,"c":"FFFFFF","d":"FFFFFF","k":"CC0000","l":"CC0000","m":"CC0000","n":"FFFFFF","p":"10","q":"CC0000","r":100,"fwtickm":1}}</script>
+</div>
+
+<script type="text/javascript">
+function Close() {
+    document.getElementById("chatango").style.display = "none";
+}
+
+dragElement(document.getElementById("chatango"));
+
+function dragElement(elmnt) {
+    var pos1 = 0,
+        pos2 = 0,
+        pos3 = 0,
+        pos4 = 0;
+    if (document.getElementById("chatango2")) {
+        // if present, the header is where you move the DIV from:
+        document.getElementById("chatango2").onmousedown = dragMouseDown;
+    } else {
+        // otherwise, move the DIV from anywhere inside the DIV: 
+        elmnt.onmousedown = dragMouseDown;
+    }
+
+    function dragMouseDown(e) {
+        e = e || window.event;
+        e.preventDefault();
+        // get the mouse cursor position at startup:
+        pos3 = e.clientX;
+        pos4 = e.clientY;
+        document.onmouseup = closeDragElement;
+        // call a function whenever the cursor moves:
+        document.onmousemove = elementDrag;
+    }
+
+    function elementDrag(e) {
+        e = e || window.event;
+        e.preventDefault();
+        // calculate the new cursor position:
+        pos1 = pos3 - e.clientX;
+        pos2 = pos4 - e.clientY;
+        pos3 = e.clientX;
+        pos4 = e.clientY;
+        // set the element's new position:
+        elmnt.style.top = (elmnt.offsetTop - pos2) + "px";
+        elmnt.style.left = (elmnt.offsetLeft - pos1) + "px";
+    }
+
+    function closeDragElement() {
+        // stop moving when mouse button is released:
+        document.onmouseup = null;
+        document.onmousemove = null;
+    }
+}
+</script>
